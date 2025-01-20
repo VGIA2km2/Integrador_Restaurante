@@ -15,11 +15,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etNombre, etApellido, etCorreo, etTelefono, etDireccion;
     private Button btnContinuar;
 
+    // Lista simplemente enlazada para almacenar usuarios
+    private ListaUsuarios listaUsuarios;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         etNombre = findViewById(R.id.etNombre);
         etApellido = findViewById(R.id.etApellido);
@@ -27,8 +29,23 @@ public class LoginActivity extends AppCompatActivity {
         etTelefono = findViewById(R.id.etTelefono);
         btnContinuar = findViewById(R.id.btnContinuar);
 
+        // Inicializar la lista simplemente enlazada
+        listaUsuarios = new ListaUsuarios();
+
         btnContinuar.setOnClickListener(v -> {
             if (validarCampos()) {
+                // Guardar los datos en la lista
+                String nombre = etNombre.getText().toString();
+                String apellido = etApellido.getText().toString();
+                String correo = etCorreo.getText().toString();
+                String telefono = etTelefono.getText().toString();
+
+                Usuario nuevoUsuario = new Usuario(nombre, apellido, correo, telefono);
+                listaUsuarios.agregarUsuario(nuevoUsuario);
+
+                // Mostrar un mensaje de éxito
+                Toast.makeText(this, "Usuario agregado correctamente", Toast.LENGTH_SHORT).show();
+
                 // Navegar a ComidaActivity si la validación es exitosa
                 Intent intent = new Intent(LoginActivity.this, ComidaActivity.class);
                 startActivity(intent);
@@ -79,12 +96,49 @@ public class LoginActivity extends AppCompatActivity {
             esValido = false;
         }
 
-
         // Mostrar mensaje de error
         if (!esValido) {
             Toast.makeText(this, "Por favor, corrige los errores antes de continuar", Toast.LENGTH_SHORT).show();
         }
 
         return esValido;
+    }
+}
+
+class Usuario {
+    String nombre;
+    String apellido;
+    String correo;
+    String telefono;
+    Usuario siguiente;
+
+    public Usuario(String nombre, String apellido, String correo, String telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.siguiente = null;
+    }
+}
+
+
+class ListaUsuarios {
+    private Usuario cabeza;
+
+    public ListaUsuarios() {
+        this.cabeza = null;
+    }
+
+
+    public void agregarUsuario(Usuario nuevoUsuario) {
+        if (cabeza == null) {
+            cabeza = nuevoUsuario;
+        } else {
+            Usuario actual = cabeza;
+            while (actual.siguiente != null) {
+                actual = actual.siguiente;
+            }
+            actual.siguiente = nuevoUsuario;
+        }
     }
 }

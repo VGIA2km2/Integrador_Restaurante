@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFEBE6">
+
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="71dp"
+        android:layout_height="68dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/titled_remove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp" />
+
+
+    <ImageView
+        android:id="@+id/image_hamburguesa"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="Imagen de la hamburguesa"
+        android:src="@drawable/ic_hamburguesa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        android:layout_margin="16dp" />
+
+
+    <CheckBox
+        android:id="@+id/checkbox_queso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Queso"
+        app:layout_constraintStart_toEndOf="@id/image_hamburguesa"
+        app:layout_constraintTop_toTopOf="@id/image_hamburguesa"
+        android:layout_marginStart="16dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_lechuga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lechuga"
+        app:layout_constraintStart_toStartOf="@id/checkbox_queso"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_queso"
+        android:layout_marginTop="10dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_tomate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tomate"
+        app:layout_constraintStart_toStartOf="@id/checkbox_lechuga"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_lechuga"
+        android:layout_marginTop="10dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_pepinillos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pepinillos"
+        app:layout_constraintStart_toStartOf="@id/checkbox_tomate"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_tomate"
+        android:layout_marginTop="10dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_bacon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bacon"
+        app:layout_constraintStart_toStartOf="@id/checkbox_pepinillos"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_pepinillos"
+        android:layout_marginTop="10dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_cebolla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cebolla"
+        app:layout_constraintStart_toStartOf="@id/checkbox_bacon"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_bacon"
+        android:layout_marginTop="10dp" />
+
+
+    <Button
+        android:id="@+id/btn_costo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click aqui para actulizar el costo"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_continuar"
+        android:layout_marginBottom="16dp" />
+
+
+    <Button
+        android:id="@+id/btn_continuar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

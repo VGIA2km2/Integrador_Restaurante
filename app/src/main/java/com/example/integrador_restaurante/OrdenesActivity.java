@@ -2,7 +2,6 @@ package com.example.integrador_restaurante;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,18 +21,21 @@ public class OrdenesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordenes);
 
-        // Obtener referencias
+        // referencias
         ordenesContainer = findViewById(R.id.ordenesContainer);
         btnSalir = findViewById(R.id.btnSalir);
         btnVolverOrdenar = findViewById(R.id.btnVolverOrdenar);
 
-        // Recibir las órdenes desde la actividad anterior
+        // Recibir las órdenes
         ordenesList = getIntent().getStringArrayListExtra("ordenes");
+        String ingredientesSeleccionados = getIntent().getStringExtra("ingredientes");
+        int cantidad = getIntent().getIntExtra("cantidad", 1);
+        int costo = getIntent().getIntExtra("costo", 125); // Costo predeterminado
 
         if (ordenesList != null && !ordenesList.isEmpty()) {
-            // Mostrar las órdenes en la vista
+            // Mostrar las órdenes
             for (String orden : ordenesList) {
-                addOrdenToView(orden);
+                addOrdenToView(orden, ingredientesSeleccionados, cantidad, costo);
             }
         } else {
             // Si no hay órdenes, mostrar un mensaje
@@ -50,21 +52,26 @@ public class OrdenesActivity extends AppCompatActivity {
         });
     }
 
-    private void addOrdenToView(String orden) {
-        // Crear un nuevo layout para cada orden
+    private void addOrdenToView(String orden, String ingredientes, int cantidad, int costo) {
+
         LinearLayout ordenLayout = new LinearLayout(this);
-        ordenLayout.setOrientation(LinearLayout.HORIZONTAL);
+        ordenLayout.setOrientation(LinearLayout.VERTICAL);
         ordenLayout.setPadding(16, 16, 16, 16);
 
-        // Mostrar el número de orden
+
         TextView ordenText = new TextView(this);
-        ordenText.setText(orden);
+        ordenText.setText(
+                orden +
+                        "\nCantidad: " + cantidad +
+                        "\nIngredientes: " + ingredientes +
+                        "\nCosto: $" + costo
+        );
         ordenText.setTextColor(getResources().getColor(android.R.color.black));
         ordenText.setTextSize(18);
 
         // Botón para cancelar la orden
         Button cancelButton = new Button(this);
-        cancelButton.setText("X");
+        cancelButton.setText("Cancelar");
         cancelButton.setTextColor(getResources().getColor(android.R.color.white));
         cancelButton.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
 
@@ -76,15 +83,15 @@ public class OrdenesActivity extends AppCompatActivity {
             // Eliminar la orden de la vista
             ordenesContainer.removeView(ordenLayout);
 
-            // Mostrar un mensaje de confirmación
+            //mensaje de confirmación
             Toast.makeText(this, "Orden cancelada", Toast.LENGTH_SHORT).show();
         });
 
-        // Añadir la orden y el botón al layout
+
         ordenLayout.addView(ordenText);
         ordenLayout.addView(cancelButton);
 
-        // Añadir el layout de la orden al contenedor de órdenes
+
         ordenesContainer.addView(ordenLayout);
     }
 }

@@ -25,6 +25,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ComidaActivity" />
         <activity android:name=".OrdenesActivity" />
+        <activity android:name=".IngredientesActivity" />
+
     </application>
 
 </manifest>

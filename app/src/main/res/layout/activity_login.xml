@@ -59,12 +59,6 @@
                 android:inputType="phone"
                 android:layout_marginTop="10dp" />
 
-            <EditText
-                android:id="@+id/etDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:hint="Dirección"
-                android:layout_marginTop="10dp" />
 
             <Button
                 android:id="@+id/btnContinuar"

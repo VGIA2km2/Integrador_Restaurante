@@ -34,12 +34,22 @@
             android:textColor="#FF5722"
             android:layout_marginBottom="20dp"/>
 
-        <!-- Botón -->
+
         <Button
-            android:id="@+id/btnOrdenar"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnsignin"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Ordenar Ahora"
+            android:text="Sing in"
+            android:textSize="23dp"
+            android:backgroundTint="#FF5722"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"/>
+
+        <Button
+            android:id="@+id/btnlogin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Log in"
             android:textSize="23dp"
             android:backgroundTint="#FF5722"
             android:textColor="#FFFFFF"

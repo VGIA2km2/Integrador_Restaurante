@@ -21,15 +21,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-// Actividad para recuperar/actualizar la contraseña
+
 public class PasswordActivity extends AppCompatActivity {
 
     private EditText etNombre, etApellido, etCorreo, etTelefono, etContrasena;
     private Button btnRecuperar;
 
-    // URL a tu script de actualización de contraseña
+
     private final String URL_API = "http://10.0.2.2/password.php";
-    // Ajusta según tu ruta real, p.e. "http://10.0.2.2/proyecto/password.php"
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class PasswordActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             Toast.makeText(PasswordActivity.this, message, Toast.LENGTH_SHORT).show();
                             if (success) {
-                                // Si la contraseña se actualizó, podríamos cerrar la actividad
+
                                 finish();
                             }
                         });

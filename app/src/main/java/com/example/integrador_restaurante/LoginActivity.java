@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // 1. Enlazar vistas
+
         etNombre = findViewById(R.id.etNombre);
         etApellido = findViewById(R.id.etApellido);
         etCorreo = findViewById(R.id.etCorreo);
@@ -35,13 +35,13 @@ public class LoginActivity extends AppCompatActivity {
         btnContinuar = findViewById(R.id.btnContinuar);
         hypertext = findViewById(R.id.hypertext);
 
-        // 2. Configurar hipervínculo
+        // hipervínculo
         hypertext.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, PasswordActivity.class);
             startActivity(intent);
         });
 
-        // 3. Botón de login
+
         btnContinuar.setOnClickListener(v -> {
             if (validarCampos()) {
                 realizarLogin(

@@ -26,7 +26,7 @@ public class OrdenesActivity extends AppCompatActivity {
         btnSalir = findViewById(R.id.btnSalir);
         btnVolverOrdenar = findViewById(R.id.btnVolverOrdenar);
 
-        // Recibir las órdenes
+        // ordenes
         ordenesList = getIntent().getStringArrayListExtra("ordenes");
         String ingredientesSeleccionados = getIntent().getStringExtra("ingredientes");
         int cantidad = getIntent().getIntExtra("cantidad", 1);
@@ -69,7 +69,7 @@ public class OrdenesActivity extends AppCompatActivity {
         ordenText.setTextColor(getResources().getColor(android.R.color.black));
         ordenText.setTextSize(18);
 
-        // Botón para cancelar la orden
+        //cancelar la orden
         Button cancelButton = new Button(this);
         cancelButton.setText("Cancelar");
         cancelButton.setTextColor(getResources().getColor(android.R.color.white));
@@ -83,7 +83,7 @@ public class OrdenesActivity extends AppCompatActivity {
             // Eliminar la orden de la vista
             ordenesContainer.removeView(ordenLayout);
 
-            //mensaje de confirmación
+            //confirmación
             Toast.makeText(this, "Orden cancelada", Toast.LENGTH_SHORT).show();
         });
 

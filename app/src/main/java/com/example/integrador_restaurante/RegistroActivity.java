@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.Call;
-import okhttp3.Callback;        // <-- Asegúrate de que sea "okhttp3.Callback"
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,7 +28,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btnContinuar;
 
     private final String URL_API = "http://10.0.2.2/registro.php";
-    // O "http://10.0.2.2/subcarpeta/registro.php" si lo tienes dentro de una subcarpeta
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class RegistroActivity extends AppCompatActivity {
         etContrasena = findViewById(R.id.etContraseña);
         btnContinuar = findViewById(R.id.btnContinuar);
 
-        // Listener del botón
+
         btnContinuar.setOnClickListener(v -> {
             if (validarCampos()) {
                 realizarRegistro(
@@ -97,7 +97,7 @@ public class RegistroActivity extends AppCompatActivity {
     private void realizarRegistro(String nombre, String apellido, String correo, String telefono, String contrasena) {
         OkHttpClient client = new OkHttpClient();
 
-        // Armar el JSON con los nombres que tu PHP espera
+        // Armar el JSON con los nombres para el php
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("nombre", nombre);
@@ -119,7 +119,7 @@ public class RegistroActivity extends AppCompatActivity {
                 .post(body)
                 .build();
 
-        // Enqueue con "okhttp3.Callback"
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -132,7 +132,7 @@ public class RegistroActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                // Manejar la respuesta HTTP
+                //respuesta HTTP
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonResponse = new JSONObject(response.body().string());
@@ -143,11 +143,10 @@ public class RegistroActivity extends AppCompatActivity {
                             if (success) {
                                 // Registro exitoso
                                 Toast.makeText(RegistroActivity.this, message, Toast.LENGTH_SHORT).show();
-                                // Por ejemplo, tras registrarse lo llevas al login
                                 startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
-                                finish(); // opcional, para no volver a esta Activity con back
+                                finish();
                             } else {
-                                // Falló (correo ya registrado, etc.)
+                                // Falló
                                 Toast.makeText(RegistroActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -155,7 +154,7 @@ public class RegistroActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    // Error HTTP (404, 500, etc.)
+
                     runOnUiThread(() -> {
                         Toast.makeText(RegistroActivity.this,
                                 "Error HTTP: " + response.code(),

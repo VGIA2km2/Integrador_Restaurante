@@ -44,7 +44,7 @@ public class ComidaActivity extends AppCompatActivity {
             String nuevaOrden = "Comida #" + (ordenesList.size() + 1) + " - Cantidad: " + cantidadSeleccionada;
             ordenesList.add(nuevaOrden);
 
-            // Mostrar un mensaje de confirmación
+            // confirmación
             Toast.makeText(ComidaActivity.this, "Has seleccionado comida: Cantidad " + cantidadSeleccionada, Toast.LENGTH_SHORT).show();
 
 

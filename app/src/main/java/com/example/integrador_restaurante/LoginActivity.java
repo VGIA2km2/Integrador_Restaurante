@@ -6,139 +6,147 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etNombre, etApellido, etCorreo, etTelefono, etDireccion;
+    private EditText etNombre, etApellido, etCorreo, etTelefono, etContrasena;
     private Button btnContinuar;
-
-    // Lista simplemente enlazada para almacenar usuarios
-    private ListaUsuarios listaUsuarios;
+    private TextView hypertext;
+    private final String URL_API = "http://10.0.2.2/login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // 1. Enlazar vistas
         etNombre = findViewById(R.id.etNombre);
         etApellido = findViewById(R.id.etApellido);
         etCorreo = findViewById(R.id.etCorreo);
         etTelefono = findViewById(R.id.etTelefono);
+        etContrasena = findViewById(R.id.etContraseña);
         btnContinuar = findViewById(R.id.btnContinuar);
+        hypertext = findViewById(R.id.hypertext);
 
-        // Inicializar la lista simplemente enlazada
-        listaUsuarios = new ListaUsuarios();
+        // 2. Configurar hipervínculo
+        hypertext.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, PasswordActivity.class);
+            startActivity(intent);
+        });
 
+        // 3. Botón de login
         btnContinuar.setOnClickListener(v -> {
             if (validarCampos()) {
-                // Guardar los datos en la lista
-                String nombre = etNombre.getText().toString();
-                String apellido = etApellido.getText().toString();
-                String correo = etCorreo.getText().toString();
-                String telefono = etTelefono.getText().toString();
-
-                Usuario nuevoUsuario = new Usuario(nombre, apellido, correo, telefono);
-                listaUsuarios.agregarUsuario(nuevoUsuario);
-
-                // Mostrar un mensaje de éxito
-                Toast.makeText(this, "Usuario agregado correctamente", Toast.LENGTH_SHORT).show();
-
-                // Navegar a ComidaActivity si la validación es exitosa
-                Intent intent = new Intent(LoginActivity.this, ComidaActivity.class);
-                startActivity(intent);
+                realizarLogin(
+                        etNombre.getText().toString().trim(),
+                        etApellido.getText().toString().trim(),
+                        etCorreo.getText().toString().trim(),
+                        etTelefono.getText().toString().trim(),
+                        etContrasena.getText().toString().trim()
+                );
             }
         });
     }
 
     private boolean validarCampos() {
-        boolean esValido = true;
+        boolean valido = true;
 
         // Validar nombre
-        String nombre = etNombre.getText().toString();
-        if (TextUtils.isEmpty(nombre)) {
-            etNombre.setError("Por favor, ingresa tu nombre");
-            esValido = false;
-        } else if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            etNombre.setError("El nombre solo debe contener letras");
-            esValido = false;
+        if (TextUtils.isEmpty(etNombre.getText())) {
+            etNombre.setError("Ingresa tu nombre");
+            valido = false;
         }
 
         // Validar apellido
-        String apellido = etApellido.getText().toString();
-        if (TextUtils.isEmpty(apellido)) {
-            etApellido.setError("Por favor, ingresa tu apellido");
-            esValido = false;
-        } else if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            etApellido.setError("El apellido solo debe contener letras");
-            esValido = false;
+        if (TextUtils.isEmpty(etApellido.getText())) {
+            etApellido.setError("Ingresa tu apellido");
+            valido = false;
         }
 
         // Validar correo
         String correo = etCorreo.getText().toString();
-        if (TextUtils.isEmpty(correo)) {
-            etCorreo.setError("Por favor, ingresa tu correo electrónico");
-            esValido = false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-            etCorreo.setError("Por favor, ingresa un correo válido");
-            esValido = false;
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            etCorreo.setError("Correo inválido");
+            valido = false;
         }
 
         // Validar teléfono
         String telefono = etTelefono.getText().toString();
-        if (TextUtils.isEmpty(telefono)) {
-            etTelefono.setError("Por favor, ingresa tu número de teléfono");
-            esValido = false;
-        } else if (!telefono.matches("[0-9]{10}")) {
-            etTelefono.setError("El número de teléfono debe tener 10 dígitos");
-            esValido = false;
+        if (!telefono.matches("\\d{10}")) {
+            etTelefono.setError("Debe tener 10 dígitos");
+            valido = false;
         }
 
-        // Mostrar mensaje de error
-        if (!esValido) {
-            Toast.makeText(this, "Por favor, corrige los errores antes de continuar", Toast.LENGTH_SHORT).show();
+        // Validar contraseña
+        if (TextUtils.isEmpty(etContrasena.getText())) {
+            etContrasena.setError("Ingresa tu contraseña");
+            valido = false;
         }
 
-        return esValido;
-    }
-}
-
-class Usuario {
-    String nombre;
-    String apellido;
-    String correo;
-    String telefono;
-    Usuario siguiente;
-
-    public Usuario(String nombre, String apellido, String correo, String telefono) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.siguiente = null;
-    }
-}
-
-
-class ListaUsuarios {
-    private Usuario cabeza;
-
-    public ListaUsuarios() {
-        this.cabeza = null;
+        return valido;
     }
 
+    private void realizarLogin(String nombre, String apellido, String correo, String telefono, String contrasena) {
+        OkHttpClient client = new OkHttpClient();
 
-    public void agregarUsuario(Usuario nuevoUsuario) {
-        if (cabeza == null) {
-            cabeza = nuevoUsuario;
-        } else {
-            Usuario actual = cabeza;
-            while (actual.siguiente != null) {
-                actual = actual.siguiente;
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("nombre", nombre);
+            jsonBody.put("apellido", apellido);
+            jsonBody.put("correo_electronico", correo);
+            jsonBody.put("numero_telefonico", telefono);
+            jsonBody.put("contrasena", contrasena);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(
+                jsonBody.toString(),
+                MediaType.parse("application/json; charset=utf-8")
+        );
+
+        Request request = new Request.Builder()
+                .url(URL_API)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    String msg = "Error de conexión: " + e.getMessage();
+                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
+                });
             }
-            actual.siguiente = nuevoUsuario;
-        }
+
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response.body().string());
+                        boolean success = jsonResponse.getBoolean("success");
+
+                        runOnUiThread(() -> {
+                            if (success) {
+                                Toast.makeText(LoginActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, ComidaActivity.class));
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 }

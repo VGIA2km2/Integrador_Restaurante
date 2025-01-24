@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ResumenActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ComidaActivity" />
         <activity android:name=".OrdenesActivity" />

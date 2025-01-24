@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/txtOrdenes"
+        android:id="@+id/txtTituloOrden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Órdenes"
@@ -29,7 +29,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Lista de órdenes"
-        app:layout_constraintTop_toBottomOf="@id/txtOrdenes"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloOrden"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/buttonContainer">
@@ -49,10 +49,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_marginBottom="16dp">
 
 
         <Button
